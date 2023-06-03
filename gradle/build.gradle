@@ -1,0 +1,36 @@
+plugins {
+    id 'java'
+    id 'com.github.johnrengelman.shadow' version '8.1.1'
+}
+
+apply plugin: "java"
+apply plugin: "com.github.johnrengelman.shadow"
+
+group 'ru.javapro.example'
+version '0.0.1'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+    implementation 'com.google.guava:guava:32.0.0-jre'
+}
+
+shadowJar {
+    archiveBaseName.set('fat-jar-file')
+    archiveVersion.set('0.0.2')
+    archiveClassifier.set('')
+    manifest {
+        attributes 'Main-Class': 'ru.javapro.example.HelloOtus'
+    }
+}
+
+tasks.build.dependsOn tasks.shadowJar
+
+
+test {
+    useJUnitPlatform()
+}
